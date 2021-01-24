@@ -35,4 +35,8 @@ tt[0] = item1[1].toInt();
 ```
 
 ```bash
+[Category0]
+item0=""
+[Category1]
+item1=3.13,0,0
 ```
