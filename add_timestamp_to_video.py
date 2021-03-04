@@ -3,6 +3,13 @@ import sys
 import cv2
 
 
+def help():
+    print("Depencies: python_opencv")
+    print("Usage:")
+    print("python3 add_timestamp_to_video raw_video.avi timestamp.log processed_video.avi")
+    print("python3 add_timestamp_to_video raw_video.avi timestamp.log processed_video.avi true")
+
+
 def process(inputvideoname, timestampfilename, outputvideoname, verbose=False):
     cap = cv2.VideoCapture(inputvideoname)
     frame_rate = int(round(cap.get(cv2.CAP_PROP_FPS)))
@@ -21,7 +28,6 @@ def process(inputvideoname, timestampfilename, outputvideoname, verbose=False):
     i = 0
     while cap.isOpened():
         ret, frame = cap.read()
-        i += 1
         if ret == 0:
             break
         try:
@@ -33,15 +39,23 @@ def process(inputvideoname, timestampfilename, outputvideoname, verbose=False):
                 
         cv2.putText(frame, str(timestamp), (50,50), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255))   
         out.write(frame)
-        cv2.imshow('ss', frame)
-        cv2.waitKey(10)
+
+        if i % 100 == 0:
+            print("process {}/{}".format(i, frame_number))
+        i += 1
+
+        if verbose:
+            cv2.imshow('ss', frame)
+            cv2.waitKey(10)
 
     cap.release()
     out.release()
     timestamp_file.close()
 
 if __name__ == '__main__':
-    if len(sys.argv) > 4:
+    if len(sys.argv) == 5:
         process(sys.argv[1], sys.argv[2], sys.argv[3], verbose=True)
-    else:
+    elif len(sys.argv) == 4:
         process(sys.argv[1], sys.argv[2], sys.argv[3], verbose=False)
+    else:
+        help()
