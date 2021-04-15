@@ -16,13 +16,16 @@ def print_urg_timestamp(fn):
         print("angle range: {}, angle resolution: {}, unit: {}".format(ang_range, ang_resol, unit))
         bim_numbers = int(ang_range // ang_resol + 1)
         print("bim number: {}".format(bim_numbers))
+        log = open("timestamp.csv", 'w')
         while True:
             p_data = f.read(4)
             if len(p_data) < 4:
                 break
             timestamp = struct.unpack('<l', p_data)[0]
             p_data = f.read(bim_numbers * 2)
+            log.write(str(timestamp) + "\n")
             print(timestamp)
+        log.close()
             
 
 if __name__ == '__main__':
