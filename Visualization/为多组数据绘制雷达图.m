@@ -78,7 +78,7 @@ function [H] = Draw_radar(data,lim,labels,linestyle, need_fill)
             maxy=y+dy;
         end
     end
-    axis([minx-50,maxx+50,miny-20,maxy+20]);
+    axis([minx-50,maxx+50,miny-50,maxy+50]);
 end
  
 function text_around(x,y,txt,theta,fontsize)
